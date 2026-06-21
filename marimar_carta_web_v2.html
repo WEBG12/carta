@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --cream: #F5F0E8;
+    --dark: #1a1a18;
+    --gold: #B8923A;
+    --gold-light: #D4A853;
+    --muted: #7a7568;
+    --border: rgba(90,80,60,0.18);
+    --section-bg: #FDFAF4;
+  }
+  body {
+    background: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    color: var(--dark);
+    min-height: 100vh;
+  }
+  .header {
+    text-align: center;
+    padding: 3.5rem 2rem 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 5.5rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--dark);
+  }
+  .subtitle {
+    font-family: 'Jost', sans-serif;
+    font-weight: 400;
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: 0.4rem;
+  }
+  .rainbow-dot { display: inline-flex; gap: 3px; margin-top: 0.7rem; align-items: center; justify-content: center; }
+  .rainbow-dot span { width: 7px; height: 7px; border-radius: 50%; display: block; }
+  .tagline {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.88rem;
+    color: var(--muted);
+    max-width: 520px;
+    margin: 1.2rem auto 0;
+    line-height: 1.8;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0;
+    padding: 0 1rem;
+    background: var(--section-bg);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav a {
+    text-decoration: none;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.9rem 0.9rem;
+    transition: color 0.2s;
+    font-weight: 500;
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover { color: var(--gold); border-bottom-color: var(--gold); }
+  main { max-width: 820px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+  section { padding: 3.5rem 0 2.5rem; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2.2rem;
+  }
+  .section-label::before, .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dark);
+    white-space: nowrap;
+  }
+  .section-en {
+    display: block;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-align: center;
+    margin-top: -1.8rem;
+    margin-bottom: 2rem;
+    font-weight: 400;
+  }
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.3rem 1.2rem;
+    padding: 1.2rem 0;
+    border-bottom: 1px dashed var(--border);
+    align-items: start;
+  }
+  .item:last-child { border-bottom: none; }
+  .item-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.02rem;
+    font-weight: 500;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+  .item-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    font-weight: 400;
+    white-space: nowrap;
+    text-align: right;
+  }
+  .item-desc {
+    grid-column: 1;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-top: 0.2rem;
+  }
+  .item-en { font-style: italic; font-size: 0.78rem; color: #a09880; }
+  .item-allergens {
+    grid-column: 1 / -1;
+    font-size: 0.68rem;
+    color: #b0a892;
+    margin-top: 0.15rem;
+  }
+  .item-note {
+    grid-column: 2;
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-align: right;
+  }
+  .classic-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .classic-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px dashed var(--border);
+    gap: 1rem;
+  }
+  .classic-item:nth-child(odd) { padding-right: 1.5rem; border-right: 1px dashed var(--border); }
+  .classic-item:nth-child(even) { padding-left: 1.5rem; }
+  .classic-name { font-size: 0.88rem; color: var(--dark); }
+  .classic-en { font-size: 0.72rem; color: var(--muted); font-style: italic; }
+  .classic-price { font-size: 0.9rem; color: var(--gold); font-family: 'Playfair Display', serif; white-space: nowrap; }
+  .drinks-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem; }
+  .drinks-group { margin-bottom: 2rem; }
+  .drinks-group-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .drink-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.45rem 0;
+    font-size: 0.85rem;
+    border-bottom: 1px dashed var(--border);
+    gap: 0.5rem;
+  }
+  .drink-item:last-child { border-bottom: none; }
+  .drink-name { color: var(--dark); }
+  .drink-price { color: var(--gold); font-family: 'Playfair Display', serif; white-space: nowrap; }
+  .wine-entry { margin-bottom: 1.2rem; }
+  .wine-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 500; color: var(--dark); }
+  .wine-sub { font-size: 0.75rem; color: var(--muted); font-style: italic; margin-bottom: 0.3rem; }
+  .wine-prices { display: flex; gap: 1rem; font-size: 0.8rem; }
+  .wine-prices span { color: var(--muted); }
+  .wine-prices strong { color: var(--gold); font-family: 'Playfair Display', serif; font-weight: 400; }
+  .highlight-box {
+    background: rgba(184,146,58,0.06);
+    padding: 1.2rem 1rem;
+    border-radius: 4px;
+    border-left: 2px solid var(--gold-light);
+    margin: 0.3rem 0;
+  }
+  .para-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-align: center;
+    font-style: italic;
+    margin-top: -1.5rem;
+    margin-bottom: 2rem;
+  }
+  .allergens-footer {
+    text-align: center;
+    font-size: 0.68rem;
+    color: #b0a892;
+    padding-top: 2.5rem;
+    line-height: 2;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  @media (max-width: 540px) {
+    .drinks-cols { grid-template-columns: 1fr; gap: 0; }
+    .classic-grid { grid-template-columns: 1fr; }
+    .classic-item:nth-child(odd) { padding-right: 0; border-right: none; }
+    .classic-item:nth-child(even) { padding-left: 0; }
+    nav a { font-size: 0.6rem; padding: 0.7rem 0.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">marimar</div>
+  <div class="subtitle">Sabor &amp; Diversidad</div>
+  <div class="rainbow-dot">
+    <span style="background:#E53935"></span>
+    <span style="background:#FB8C00"></span>
+    <span style="background:#FDD835"></span>
+    <span style="background:#43A047"></span>
+    <span style="background:#1E88E5"></span>
+    <span style="background:#8E24AA"></span>
+  </div>
+  <p class="tagline">Nuestra carta es un pequeño homenaje: a lo cotidiano, a lo vivido y a quienes abrieron camino antes. Porque comer también es recordar y celebrar con orgullo.</p>
+</header>
+
+<nav>
+  <a href="#montaditos">Montaditos</a>
+  <a href="#compartir">A Compartir</a>
+  <a href="#especial">Cita Especial</a>
+  <a href="#cachopos">Cachopos</a>
+  <a href="#arroces">Arroces</a>
+  <a href="#cervezas">Cervezas &amp; Copas</a>
+  <a href="#vinos">Vinos</a>
+  <a href="#cafe">Café &amp; Bebidas</a>
+</nav>
+
+<main>
+
+  <!-- MONTADITOS -->
+  <section id="montaditos">
+    <div class="section-label"><span class="section-title">Montaditos</span></div>
+
+    <div class="item">
+      <div class="item-name">La Salmona</div>
+      <div class="item-price">4 €</div>
+      <div class="item-desc">Queso fresco, salmón y eneldo<br><span class="item-en">Fresh cheese, salmon and dill</span></div>
+      <div class="item-allergens">(1) (4) (7)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">La Jamona</div>
+      <div class="item-price">3,50 €</div>
+      <div class="item-desc">Jamón serrano, tomate rallado y rúcula<br><span class="item-en">Spanish ham, grated tomato &amp; arugula</span></div>
+      <div class="item-allergens">(1)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">La Salerosa</div>
+      <div class="item-price">3,50 €</div>
+      <div class="item-desc">Queso fresco, anchoas, rodajas de tomate y orégano<br><span class="item-en">Fresh cheese, anchovies, sliced tomato &amp; oregano</span></div>
+      <div class="item-allergens">(1) (4) (7)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">La Calentita</div>
+      <div class="item-price">3,50 €</div>
+      <div class="item-desc">Sobrasada, queso fundido, miel y orégano<br><span class="item-en">Sobrasada, melted cheese, honey &amp; oregano</span></div>
+      <div class="item-allergens">(1) (7)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">La Rebozada</div>
+      <div class="item-price">3,50 €</div>
+      <div class="item-desc">Calamares y mayonesa<br><span class="item-en">Fried squid &amp; mayonnaise</span></div>
+      <div class="item-allergens">(1) (3) (4)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">La Vasca Picante</div>
+      <div class="item-price">4 €</div>
+      <div class="item-desc">Hummus, anchoas y boquerones de Cantabria y guindilla picante<br><span class="item-en">Hummus with anchovies, Cantabrian white anchovies and spicy chili pepper</span></div>
+      <div class="item-allergens">(1) (3) (4) (11)</div>
+    </div>
+
+    <div class="item" style="background:rgba(184,146,58,0.05); padding:1.2rem 1rem; border-radius:4px; border-bottom:none; margin-top:0.5rem;">
+      <div class="item-name">Bocadillo — Aquí hay tema</div>
+      <div class="item-price">6 €</div>
+      <div class="item-desc">Lomo fresco, queso, tomate, orégano y mayonesa<br><span class="item-en">Fresh pork loin, cheese, tomato, oregano and mayonnaise</span></div>
+      <div class="item-allergens">(1) (3) (7)</div>
+    </div>
+
+    <div style="margin-top:2.5rem;">
+      <div class="section-label" style="margin-bottom:1.5rem;"><span class="section-title" style="font-size:0.95rem;">Tostadas Clásicas</span></div>
+      <span class="section-en" style="margin-top:-1.4rem; margin-bottom:1.4rem;">Classic Toasts</span>
+      <div class="classic-grid">
+        <div class="classic-item">
+          <div><div class="classic-name">Tostada de aceite</div><div class="classic-en">Olive oil toast &nbsp;(1)</div></div>
+          <div class="classic-price">1,60 €</div>
+        </div>
+        <div class="classic-item">
+          <div><div class="classic-name">Tostada de tomate</div><div class="classic-en">Tomato toast &nbsp;(1)</div></div>
+          <div class="classic-price">1,60 €</div>
+        </div>
+        <div class="classic-item">
+          <div><div class="classic-name">Tostada de mantequilla</div><div class="classic-en">Butter toast &nbsp;(1) (7) (12)</div></div>
+          <div class="classic-price">1,60 €</div>
+        </div>
+        <div class="classic-item">
+          <div><div class="classic-name">Tostada de queso o york</div><div class="classic-en">Cheese or ham toast</div></div>
+          <div class="classic-price">1,60 €</div>
+        </div>
+        <div class="classic-item">
+          <div><div class="classic-name">Tostada de atún</div><div class="classic-en">Tuna toast</div></div>
+          <div class="classic-price">2,50 €</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POLIAMOR A COMPARTIR -->
+  <section id="compartir">
+    <div class="section-label"><span class="section-title">♥ Poliamor a Compartir ♥</span></div>
+
+    <div class="item">
+      <div class="item-name">La Trieja — Trio de croquetas</div>
+      <div class="item-price">6 €</div>
+      <div class="item-desc">Jamón, bacalao y rabo de toro<br><span class="item-en">Croquette trio: Iberian ham, cod &amp; oxtail</span></div>
+      <div class="item-allergens">(1) (4)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">La Croqueta Brasileña — Coxinha</div>
+      <div class="item-price">5,50 €</div>
+      <div class="item-note">6 uds.</div>
+      <div class="item-desc">Pollo desmechado<br><span class="item-en">The Brazilian croquette — Pulled chicken</span></div>
+      <div class="item-allergens">(1)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Marinera</div>
+      <div class="item-price">3,50 €</div>
+      <div class="item-desc"><span class="item-en">Russian salad with anchovy</span></div>
+      <div class="item-allergens">(1) (3) (4) (7)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Ensaladilla rusa</div>
+      <div class="item-price">4,50 €</div>
+      <div class="item-desc"><span class="item-en">Russian salad</span></div>
+      <div class="item-allergens">(3) (4)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Ensaladilla de marisco</div>
+      <div class="item-price">4,50 €</div>
+      <div class="item-desc"><span class="item-en">Seafood salad</span></div>
+      <div class="item-allergens">(2) (3)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Pan, tomate y alioli</div>
+      <div class="item-price">3 €</div>
+      <div class="item-desc"><span class="item-en">Bread with tomato &amp; alioli</span></div>
+      <div class="item-allergens">(1) (3)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Boquerones a La Antonia</div>
+      <div class="item-price">5,50 €</div>
+      <div class="item-desc">Patatas chips, boquerones en aceite, perejil, fuet &amp; pepinillo<br><span class="item-en">Chips, anchovies in olive oil, parsley, fuet &amp; pickles</span></div>
+      <div class="item-allergens">(4) (12)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Gambas al ajillo</div>
+      <div class="item-price">6 €</div>
+      <div class="item-desc"><span class="item-en">Garlic prawns</span></div>
+      <div class="item-allergens">(2)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Pincho tortilla de patatas</div>
+      <div class="item-price">2,50 €</div>
+      <div class="item-desc"><span class="item-en">Spanish omelette skewer</span></div>
+      <div class="item-allergens">(1) (3)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Torrezno de Soria</div>
+      <div class="item-price">5,50 €</div>
+      <div class="item-desc"><span class="item-en">Crispy pork</span></div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Gilda</div>
+      <div class="item-price">2,50 €</div>
+      <div class="item-desc"><span class="item-en">Olive, anchovy &amp; pepper skewer</span></div>
+      <div class="item-allergens">(4)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">La Diva Ahumada</div>
+      <div class="item-price">4 €</div>
+      <div class="item-desc">Base de pan, crema especial de aguacate, semillas y sardina ahumada<br><span class="item-en">Bread base, special avocado cream, seeds and smoked sardine</span></div>
+      <div class="item-allergens">(1) (4) (7) (8) (11)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Hummus Marimar</div>
+      <div class="item-price">6 €</div>
+      <div class="item-desc"><span class="item-en">Marimar Hummus</span></div>
+      <div class="item-allergens">(1) (11)</div>
+    </div>
+  </section>
+
+  <!-- CITA ESPECIAL -->
+  <section id="especial">
+    <div class="section-label"><span class="section-title">♥ Cita Especial ♥</span></div>
+
+    <div class="item">
+      <div class="item-name">Gamba Marimar</div>
+      <div class="item-price">3,80 €</div>
+      <div class="item-note">1 ud.</div>
+      <div class="item-desc">Gamba rebozada al estilo gabardina y mayonesa de trufa<br><span class="item-en">Golden battered king prawn with truffle mayo</span></div>
+      <div class="item-allergens">(1) (14)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Tabla de queso y embutidos de Pinoso</div>
+      <div class="item-price">12 €</div>
+      <div class="item-desc"><span class="item-en">Pinoso cheese and charcuterie board</span></div>
+      <div class="item-allergens">(1) (5) (8)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Patatas bravas</div>
+      <div class="item-price">6 €</div>
+      <div class="item-desc"><span class="item-en">Traditional Spanish spicy potatoes</span></div>
+      <div class="item-allergens">(3)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Fingers de Pollo</div>
+      <div class="item-price">6 €</div>
+      <div class="item-desc"><span class="item-en">Chicken fingers</span></div>
+      <div class="item-allergens">(1)</div>
+    </div>
+  </section>
+
+  <!-- CACHOPOS -->
+  <section id="cachopos">
+    <div class="section-label"><span class="section-title">Cachopos</span></div>
+    <p class="para-note">Acompañamiento: Salsa Marimar y pan &nbsp;·&nbsp; Side: Marimar sauce and bread</p>
+
+    <div class="item">
+      <div class="item-name">Clásico</div>
+      <div class="item-price">15,90 €</div>
+      <div class="item-desc">Ternera 100%, relleno de jamón y queso gouda<br><span class="item-en">100% beef, stuffed with ham and Gouda cheese</span></div>
+      <div class="item-allergens">(1) (3) (6) (7) (8) (10) (11) (12) (13)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Pollo</div>
+      <div class="item-price">14,90 €</div>
+      <div class="item-desc">Pollo relleno de bacon y queso edam<br><span class="item-en">Chicken stuffed with bacon and Edam cheese</span></div>
+      <div class="item-allergens">(1) (3) (6) (7) (8) (10) (11) (12) (13)</div>
+    </div>
+  </section>
+
+  <!-- ARROCES -->
+  <section id="arroces">
+    <div class="section-label"><span class="section-title">Arroces</span></div>
+    <p class="para-note">Para 2 personas &nbsp;·&nbsp; 12,50 € por persona</p>
+
+    <div class="item">
+      <div class="item-name">Arroz Negro</div>
+      <div class="item-price">12,50 €/p</div>
+      <div class="item-desc">Arroz, cola de gambón, sepia, chipirón, tinta de calamar<br><span class="item-en">Black Rice — Rice, shrimp, cuttlefish, baby cuttlefish, squid ink</span></div>
+      <div class="item-allergens">(2) (4) (12) (14)</div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Paella Valenciana</div>
+      <div class="item-price">12,50 €/p</div>
+      <div class="item-desc">Arroz, pollo, judía, garrofón<br><span class="item-en">Paella Valenciana — rice, chicken, green bean, butter bean</span></div>
+    </div>
+
+    <div class="item">
+      <div class="item-name">Marimar</div>
+      <div class="item-price">12,50 €/p</div>
+      <div class="item-desc">Arroz, calamar, gamba, anilla de pota<br><span class="item-en">Rice, squid, shrimp, squid rings</span></div>
+      <div class="item-allergens">(2) (4) (12) (14)</div>
+    </div>
+  </section>
+
+  <!-- CERVEZAS Y COPAS -->
+  <section id="cervezas">
+    <div class="section-label"><span class="section-title">Cervezas &amp; Copas</span></div>
+
+    <div class="drinks-cols">
+      <div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Cervezas</div>
+          <div class="drink-item"><span class="drink-name">Caña Estrella Galicia</span><span class="drink-price">2,50 €</span></div>
+          <div class="drink-item"><span class="drink-name">Pinta Estrella Galicia</span><span class="drink-price">4 €</span></div>
+          <div class="drink-item"><span class="drink-name">Estrella Galicia Tercio</span><span class="drink-price">3 €</span></div>
+          <div class="drink-item"><span class="drink-name">Estrella Galicia Quinto</span><span class="drink-price">2 €</span></div>
+          <div class="drink-item"><span class="drink-name">Alhambra 1925</span><span class="drink-price">3,50 €</span></div>
+          <div class="drink-item"><span class="drink-name">Estrella Reposada</span><span class="drink-price">3,50 €</span></div>
+          <div class="drink-item"><span class="drink-name">Estrella sin gluten</span><span class="drink-price">3 €</span></div>
+          <div class="drink-item"><span class="drink-name">Estrella 0,0</span><span class="drink-price">3 €</span></div>
+          <div class="drink-item"><span class="drink-name">Clara Limón — caña</span><span class="drink-price">2,50 €</span></div>
+          <div class="drink-item"><span class="drink-name">Clara Limón — pinta</span><span class="drink-price">4 €</span></div>
+          <div class="drink-item"><span class="drink-name">Radler</span><span class="drink-price">3 €</span></div>
+          <div class="drink-item"><span class="drink-name">Tinto de Verano</span><span class="drink-price">3 €</span></div>
+          <div class="drink-item"><span class="drink-name">Bitter Kas</span><span class="drink-price">2 €</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Copas</div>
+          <div class="drink-item"><span class="drink-name">Gin Tonic / Ron Cola / Puerto de Indias / Vodka Limón / Aperol Spritz / Whisky</span><span class="drink-price">7 €</span></div>
+          <div class="drink-item"><span class="drink-name">Vermut rojo / blanco</span><span class="drink-price">4 €</span></div>
+          <div class="drink-item"><span class="drink-name">Chupito</span><span class="drink-price">2,50 €</span></div>
+          <div class="drink-item"><span class="drink-name">Cava (copa)</span><span class="drink-price">3,50 €</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VINOS -->
+  <section id="vinos">
+    <div class="section-label"><span class="section-title">Vinos</span></div>
+
+    <div class="drinks-cols">
+      <div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Vinos blancos</div>
+          <div class="wine-entry">
+            <div class="wine-name">Vinalopó — Sauvignon Blanc</div>
+            <div class="wine-prices"><span>Copa</span><strong>3,50 €</strong><span>Botella</span><strong>13,50 €</strong></div>
+          </div>
+          <div class="wine-entry">
+            <div class="wine-name">Oqume — Albariño</div>
+            <div class="wine-sub">Special white wine from Galicia</div>
+            <div class="wine-prices"><span>Copa</span><strong>4,50 €</strong><span>Botella</span><strong>21 €</strong></div>
+          </div>
+          <div class="wine-entry">
+            <div class="wine-name">Bicos — Albariño</div>
+            <div class="wine-prices"><span>Copa</span><strong>4 €</strong><span>Botella</span><strong>16 €</strong></div>
+          </div>
+        </div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Vino rosado</div>
+          <div class="wine-entry">
+            <div class="wine-name">Vinalopó — Rosado</div>
+            <div class="wine-prices"><span>Copa</span><strong>3,50 €</strong><span>Botella</span><strong>13,50 €</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Vinos tintos</div>
+          <div class="wine-entry">
+            <div class="wine-name">Gorgorito — Rioja</div>
+            <div class="wine-prices"><span>Copa</span><strong>3,50 €</strong><span>Botella</span><strong>14 €</strong></div>
+          </div>
+          <div class="wine-entry">
+            <div class="wine-name">Gorgorito — Ribera</div>
+            <div class="wine-prices"><span>Copa</span><strong>3,50 €</strong><span>Botella</span><strong>14 €</strong></div>
+          </div>
+          <div class="wine-entry">
+            <div class="wine-name">Protos — Ribera del Duero</div>
+            <div class="wine-prices"><span>Copa</span><strong>4,50 €</strong><span>Botella</span><strong>21 €</strong></div>
+          </div>
+          <div class="wine-entry">
+            <div class="wine-name">Azpilicueta — Rioja</div>
+            <div class="wine-prices"><span>Copa</span><strong>4 €</strong><span>Botella</span><strong>18 €</strong></div>
+          </div>
+          <div class="wine-entry">
+            <div class="wine-name">Vinalopó — Roble</div>
+            <div class="wine-prices"><span>Copa</span><strong>4 €</strong><span>Botella</span><strong>18 €</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAFÉ Y BEBIDAS -->
+  <section id="cafe">
+    <div class="section-label"><span class="section-title">Café &amp; Bebidas</span></div>
+
+    <div class="drinks-cols">
+      <div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Café — Coffee</div>
+          <div class="drink-item"><span class="drink-name">Solo <span style="font-style:italic;font-size:0.78rem;color:var(--muted)">(Espresso)</span></span><span class="drink-price">1,50 €</span></div>
+          <div class="drink-item"><span class="drink-name">Cortado</span><span class="drink-price">1,60 €</span></div>
+          <div class="drink-item"><span class="drink-name">Café con Leche <span style="font-style:italic;font-size:0.78rem;color:var(--muted)">(Coffee with milk)</span></span><span class="drink-price">1,80 €</span></div>
+          <div class="drink-item"><span class="drink-name">Americano</span><span class="drink-price">1,60 €</span></div>
+          <div class="drink-item"><span class="drink-name">Cappuccino</span><span class="drink-price">2,50 €</span></div>
+          <div class="drink-item"><span class="drink-name">Colacao</span><span class="drink-price">1,80 €</span></div>
+          <div class="drink-item"><span class="drink-name">Sabores en carta</span><span class="drink-price">2 €</span></div>
+        </div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Infusiones o Té — Teas &amp; Herbal Infusions</div>
+          <div class="drink-item"><span class="drink-name" style="font-style:italic;color:var(--muted)">Consulta nuestra carta de infusiones y tés<br><span style="font-size:0.75rem;">Please ask for our tea &amp; herbal infusions menu</span></span><span class="drink-price">2 €</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Refrescos — Soft Drinks</div>
+          <div class="drink-item"><span class="drink-name">Coca Cola / Coca Cola Zero / Fanta Naranja / Fanta Limón / Sprite</span><span class="drink-price">2 €</span></div>
+          <div class="drink-item"><span class="drink-name">Nestea</span><span class="drink-price">2 €</span></div>
+          <div class="drink-item"><span class="drink-name">Aquarius</span><span class="drink-price">2 €</span></div>
+          <div class="drink-item"><span class="drink-name">Casera</span><span class="drink-price">1,50 €</span></div>
+        </div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Zumos — Juices</div>
+          <div class="drink-item"><span class="drink-name">Zumo de piña <span style="font-style:italic;font-size:0.78rem;color:var(--muted)">(Pineapple juice)</span></span><span class="drink-price">1,80 €</span></div>
+          <div class="drink-item"><span class="drink-name">Zumo de melocotón <span style="font-style:italic;font-size:0.78rem;color:var(--muted)">(Peach juice)</span></span><span class="drink-price">1,80 €</span></div>
+        </div>
+        <div class="drinks-group">
+          <div class="drinks-group-title">Agua — Water</div>
+          <div class="drink-item"><span class="drink-name">Agua <span style="font-style:italic;font-size:0.78rem;color:var(--muted)">(Water)</span></span><span class="drink-price">2 €</span></div>
+          <div class="drink-item"><span class="drink-name">Agua con gas <span style="font-style:italic;font-size:0.78rem;color:var(--muted)">(Sparkling water)</span></span><span class="drink-price">2,50 €</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="allergens-footer">
+    <strong style="color:var(--muted)">Alérgenos:</strong> (1) Gluten · (2) Crustáceos · (3) Huevos · (4) Pescado · (5) Cacahuetes · (6) Soja · (7) Leche · (8) Frutos secos · (9) Apio · (10) Mostaza · (11) Sésamo · (12) Sulfitos · (13) Altramuces · (14) Moluscos
+  </div>
+
+</main>
+</body>
+</html>
